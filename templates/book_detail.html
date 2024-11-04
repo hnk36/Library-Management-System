@@ -1,0 +1,100 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}Page Title{% endblock %}
+
+{% block extra_css %}
+   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+   <style>
+       .container {
+           margin-top: 50px;
+       }
+       .card {
+           border: none;
+           border-radius: 10px;
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+           overflow: hidden;
+           transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+       }
+       .card:hover {
+           transform: translateY(-10px);
+           box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+       }
+       .card-img-top {
+           border-top-left-radius: 10px;
+           border-top-right-radius: 10px;
+           height: auto;
+           width: 110%;
+           object-fit: cover;
+       }
+       .card-body {
+           padding: 20px;
+       }
+       .card-body h1, .card-body h2, .card-body p {
+           margin-bottom: 15px;
+       }
+       .card-body h1 {
+           font-size: 2rem;
+           color: #333;
+       }
+       .card-body h2 {
+           font-size: 1.5rem;
+           color: gold;
+       }
+       .card-body p {
+           font-size: 1rem;
+           color: #555;
+       }
+       .card-body strong {
+           color: #333;
+       }
+       .col-md-8 {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+           transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, filter 0.3s ease-in-out;
+         }
+       .col-md-8:hover {
+           transform: translateY(-10px);
+           box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+           filter:  drop-shadow(0 12px 24px rgba(218, 191, 28, 0.8));
+       }
+       .card-body{
+           filter:  drop-shadow(0 12px 24px rgba(218, 191, 28, 0.8));
+       }
+   </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="color:black;">
+                {% if books.book_image %}
+                    <img src="{{ books.book_image.url }}" class="card-img-top img-fluid" alt="{{ books.title }}">
+                {% else %}
+                    <img src="{% static 'image/placeholder.jfif' %}" class="card-img-top img-fluid" alt="{{ books.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <form method="post" action="{% url 'borrow_book' books.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Borrow Book</button>
+                    </form>
+                </div>
+                <p><strong>Author: {{ books.author }}</strong></p>
+                <p><strong>Publisher: {{ books.publisher }}</strong></p>
+                <p><strong>Publication Date: {{ books.publication_date }}</strong></p>
+                <p><strong>ISBN: {{ books.isbn }}</strong></p>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 style="color:gold"><strong>Genre:</strong> {{ books.genre }}</h2>
+                    <h2 style="color:gold"><strong>Title:</strong> {{ books.title }}</h2>
+                    <p><strong>Description:</strong> {{ books.Description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Signup{% endblock %}
+
+{% block content %}
+    <h2 class="text-center mb-4">Create an Account</h2>
+    
+    <div class="card mx-auto" style="max-width: 400px;">
+        <div class="card-body">
+            {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <form method="post" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_username" class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" id="id_username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="id_password" class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" id="id_password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="id_first_name" class="form-label">First Name</label>
+                    <input type="text" name="first_name" class="form-control" id="id_first_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="id_last_name" class="form-label">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" id="id_last_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" id="id_email" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-block">Signup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Book List{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <style>
+        .media-scroller {
+            display: flex;
+            overflow-x: auto;
+            padding: 1rem;
+            scroll-snap-type: x mandatory;
+        }
+        .media-scroller::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for WebKit browsers */
+        }
+        .media-scroller > * {
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+            margin-right: 1rem;
+        }
+        .card {
+            min-width: 300px;
+        }
+        .card-img-top {
+            height: 500px; /* Increase image height */
+            object-fit: cover; /* Ensure the image covers the area */
+            transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition for filter and opacity */
+        }
+        .card-img-top:hover {
+            opacity: 0.8; /* Change image opacity on hover */
+            cursor: pointer; /* Change cursor to pointer on hover */
+            filter: drop-shadow(0 12px 24px rgba(218, 191, 28, 0.8)) /* Gold drop shadow on hover */
+        }
+      .btn-primary:hover {
+        filter: drop-shadow(0 12px 24px rgba(218, 191, 28, 0.8)); /* Gold drop shadow on hover for button */
+    }
+      .card.mb-4.shadow-sm {
+        /* Add your custom styles here */
+       background-color: transparent;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+<h1>Books Genres</h1> <!-- Using a placeholder category name -->
+<div class="media-scroller">
+    <!-- Loop through the list of genres passed from the view -->
+    {% for genre in genres %}
+        <div class="card mb-4 shadow-sm">
+            <h2>{{ genre.category_name }}</h2> <!-- Display genre name -->
+            {% if genre.genre_image %}
+                <img src="{{ genre.genre_image.url }}" class="card-img-top" alt="{{ genre.category_name }}">
+               
+            {% else %}
+                
+                 <img src="{% static 'image/placeholder.jfif' %}" class="card-img-top" alt="{{ genre.category_name }}">
+            {% endif %}
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                <a href="{% url 'book_list' genre.id %}" class="btn btn-primary">View Book</a> <!-- Placeholder link -->
+                {% else %}
+                <a href="{% url 'login' %}?next={% url 'book_list' genre.id %}" class="btn btn-primary">View Book</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Additional paragraph about basic knowledge of books -->
+<div class="mt-5">
+    <h2>About Books</h2>
+    <p>
+        Books are a medium for recording information in the form of writing or images, typically composed of many pages (made of papyrus, parchment, vellum, or paper) bound together and protected by a cover. The technical term for this physical arrangement is codex (plural, codices). In the history of hand-held physical supports for extended written compositions or records, the codex replaces its predecessor, the scroll. A single sheet in a codex is a leaf, and each side of a leaf is a page.
+    </p>
+    <p>
+        As an intellectual object, a book is prototypically a composition of such great length that it takes a considerable investment of time to compose and still considered as an investment of time to read. In a restricted sense, a book is a self-sufficient section or part of a longer composition, a usage reflecting that, in antiquity, long works had to be written on several scrolls and each scroll had to be identified by the book it contained.
+    </p>
+</div>
+{% endblock %}
